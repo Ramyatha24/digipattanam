@@ -1,0 +1,15 @@
+{% extends 'myapp/base.html' %}
+{% block body %}
+<div class="flex p-10">
+    <div>
+        <img src="https://designshack.net/wp-content/uploads/placeholder-image-368x247.png">
+    </div>
+    <div class="pl-10">
+    <div class="text-4xl">{{ product.name }}</div>
+    <div class="mb-4">{{ product.desc }}</div>
+    <div class="mb-4 text-green-700 font-bold">₹{{ product.price }}</div>
+    <button id="checkout-button" class="bg-green-500 text-white px-4 py-2 rounded-sm">Buy</button>
+    <div></div>
+</div>
+</div>
+{% endblock %}

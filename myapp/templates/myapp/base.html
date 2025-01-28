@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="shadow-lg">
+        <div class="flex flex-wrap justify-between ml-5 items-center mx-auto px-4 py-2.4">
+            <a href="" class="flex items-center">
+                <img src="{% static 'myapp/images/logo.png' %}" alt="img" style="width: 40px; height: 40px;">
+                <span class="self-center text-xl font-semibold ml-2">DIGI PATTANAM</span>
+            </a>
+            <div class="flex items-center">
+                <a href="#" class="mr-6 text-sm font-medium text-gray-500">Home</a>
+                <a href="" class="mr-6 text-sm font-medium text-gray-500">Dashboard</a>
+                <a href="" class="mr-6 text-sm font-medium text-gray-500">Sales</a>
+                <a href="" class="mr-6 text-sm font-medium text-gray-500">Orders</a>
+                <a href="" class="mr-6 text-sm font-medium text-gray-500">Create Products</a>
+                <a href="" class="mr-6 text-sm font-medium text-gray-500">My Purchases</a>
+                <a href="" class="mr-6 text-sm font-medium text-gray-500">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <br><br>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card card-sm">
+                    <div class="card-body d-flex align-items-center">
+                    
+                        <input 
+                            type="search" 
+                            name="item_name" 
+                            placeholder="Search for products" 
+                            class="form-control form-control-borderless"
+                        />
+                        
+                        <button class="btn btn-success ml-2" type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>
