@@ -6,46 +6,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
-    <title>Document</title>
+    <title>Digi Pattanam</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        .navbar {
+            background-color: #3a3a3a;
+            color: white;
+            padding: 0.8rem 0;
+        }
+        .navbar a {
+            color: white !important;
+            margin-left: 1rem;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        .navbar a:hover {
+            color: #d3d3d3 !important;
+        }
+        .search-bar {
+            background-color: #3a3a3a;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        .form-control {
+            background-color: #3a3a3a;
+            color: white;
+            border: none;
+            font-size: 0.9rem;
+        }
+        .form-control::placeholder {
+            color: #d3d3d3;
+        }
+        .btn-search {
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s;
+            font-size: 0.9rem;
+        }
+        .btn-search:hover {
+            background-color: #3B9C3B;
+        }
+        .product .view-details {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .product .view-details:hover {
+            background-color: #3B9C3B;
+        }
+    </style>
 </head>
 <body>
-    <nav class="shadow-lg">
-        <div class="flex flex-wrap justify-between ml-5 items-center mx-auto px-4 py-2.4">
-            <a href="" class="flex items-center">
-                <img src="{% static 'myapp/images/logo.png' %}" alt="img" style="width: 40px; height: 40px;">
-                <span class="self-center text-xl font-semibold ml-2">DIGI PATTANAM</span>
+    <nav class="navbar shadow-lg">
+        <div class="flex items-center justify-between mx-auto px-4">
+            <a href="{% url 'index' %}" class="flex items-center justify-start">
+                <img src="{% static 'myapp/images/logo.png' %}" alt="Logo" class="w-10 h-10">
+                <span class="text-xl font-semibold ml-2">DIGI PATTANAM</span>
             </a>
+
             <div class="flex items-center">
-                <a href="#" class="mr-6 text-sm font-medium text-gray-500">Home</a>
-                <a href="" class="mr-6 text-sm font-medium text-gray-500">Dashboard</a>
-                <a href="" class="mr-6 text-sm font-medium text-gray-500">Sales</a>
-                <a href="" class="mr-6 text-sm font-medium text-gray-500">Orders</a>
-                <a href="" class="mr-6 text-sm font-medium text-gray-500">Create Products</a>
-                <a href="" class="mr-6 text-sm font-medium text-gray-500">My Purchases</a>
-                <a href="" class="mr-6 text-sm font-medium text-gray-500">Logout</a>
+                <a href="{% url 'index' %}" class="text-sm font-medium">Home</a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="text-sm font-medium">Dashboard</a>
+                    <a href="{% url 'sales' %}" class="text-sm font-medium">Sales</a>
+                    <a href="{% url 'createproduct' %}" class="text-sm font-medium">Create Products</a>
+                    <a href="{% url 'purchases' %}" class="text-sm font-medium">My Purchases</a>
+                    <a href="{% url 'logout' %}" class="text-sm font-medium">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-sm font-medium">Login</a>
+                    <a href="{% url 'register' %}" class="text-sm font-medium">Register</a>
+                {% endif %}
             </div>
         </div>
     </nav>
-    <br><br>
-    <div class="container">
+
+    <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card card-sm">
-                    <div class="card-body d-flex align-items-center">
-                    
+                <div class="card search-bar p-4">
+                    <form action="{% url 'search_products' %}" method="GET" class="card-body flex items-center">
                         <input 
                             type="search" 
                             name="item_name" 
                             placeholder="Search for products" 
-                            class="form-control form-control-borderless"
+                            class="form-control border-none focus:ring focus:ring-green-200 focus:ring-opacity-50 rounded-md"
                         />
-                        
-                        <button class="btn btn-success ml-2" type="submit">Search</button>
-                    </div>
+                        <button type="submit" class="btn btn-search ml-3 px-4 py-2 rounded-md">Search</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>

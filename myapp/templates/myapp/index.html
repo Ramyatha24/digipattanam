@@ -1,34 +1,48 @@
-
 {% extends 'myapp/base.html' %}
 {% load static %}
 {% block body %}
-<div class="product-container flex">
+<div class="product-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-10">
 
     {% for product in products %}
-<div class="product shadow-lg w-1/4 rounded-lg m-10">
-    <div class="product-image">
-        <img src="https://designshack.net/wp-content/uploads/placeholder-image-368x247.png" alt="placeholderimage">
-    </div>
-    <div class="p-5">
-        <div class="font-bold">
-            {{ product.name }}   
-
+    <div class="product bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 flex flex-col h-full">
+        <!-- Product Image -->
+        <div class="product-image w-full h-56">
+            {% if product.image %}
+                <img class="w-full h-full object-cover" src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <div class="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <span class="text-gray-500">No image available</span>
+                </div>
+            {% endif %}
         </div>
-        <div>
-            {{product.description}}
+        
+        <!-- Product Details -->
+        <div class="p-5 flex flex-col flex-grow">
+            <div class="font-bold text-lg text-gray-800">
+                {{ product.name }}
+            </div>
+            <div class="text-gray-600 mt-2 text-sm flex-grow">
+                {{ product.description }}
+            </div>
+            <div class="mt-2 inline-flex items-center">
+                <span class="px-2 py-1 text-xs font-semibold bg-blue-100 text-blue-800 rounded-full">
+                    {{ product.get_file_type_display }}
+                </span>
+            </div>
+            <div class="text-green-700 font-bold mt-3 text-lg">
+                ₹ {{ product.price }}
+            </div>
+            
+            <!-- View Details Button -->
+            <div class="mt-auto pt-3">
+                <a class="block text-center bg-green-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-300" 
+                   href="{% url 'detail' product.id %}">
+                    View Details
+                </a>
+            </div>
         </div>
-    <div class="text-green-700 font=bold">
-       ₹ {{product.price}}
     </div>
-    <div class="mt-5">
-        <a class="bg-green-500 text=white px-4 py-2" href="{% url 'detail' product.id %}">View Details</a>
-    </div>
-    </div>
+    {% endfor %}
 
 </div>
-{% endfor %}
-
-</div> {% endblock %}
-
-{{ product.price }}
-{{ product.desc }}
+{% endblock %}

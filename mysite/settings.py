@@ -9,6 +9,12 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+import environ
+
+# Initialise environment variables
+env = environ.Env()
+# Reading the .env file
+environ.Env.read_env()
 
 from pathlib import Path
 
@@ -25,7 +31,15 @@ SECRET_KEY = 'django-insecure-+#@@8#hjqz+9^@vi6rd+2g$(362a_4h%zg#h#3b&1ud!k5#uwz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '3267-2401-4900-1cb4-dc0f-6030-c8c5-3ac2-b88.ngrok-free.app'
+]
+
+CSRF_TRUSTED_ORIGINS=[
+    'https://3267-2401-4900-1cb4-dc0f-6030-c8c5-3ac2-b88.ngrok-free.app',
+]
 
 
 # Application definition
@@ -39,6 +53,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -81,6 +99,8 @@ DATABASES = {
     }
 }
 
+RAZORPAY_KEY_ID = 'rzp_test_KUuSPp457DO8fX'
+RAZORPAY_KEY_SECRET = 'Na2dCbSZApOHVEDz3Op9i1Dp'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -127,3 +147,4 @@ STATICFILES_DIRS = [BASE_DIR / "myapp" / "static"]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

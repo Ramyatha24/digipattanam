@@ -1,0 +1,54 @@
+{% extends 'myapp/base.html' %}
+{% block body %}
+<div class="container mx-auto p-6">
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-4">Payment for {{ product_name }}</h2>
+        <div class="mb-4">
+            <p class="text-gray-700">Total Amount: ₹{{ price|floatformat:2 }}</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script type="text/javascript">
+    var options = {
+        "key": "{{ razorpay_key_id }}",
+        "amount": "{{ price|floatformat:2 }}00",
+        "currency": "INR",
+        "order_id": "{{ order_id }}",
+        "name": "{{ product_name }}",
+        "description": "{{ product.desc|truncatechars:250 }}",
+        "handler": function(response) {
+            fetch('/verify/', {
+                method: 'POST',
+                body: JSON.stringify(response),
+                headers: { 'Content-Type': 'application/json'}
+            }).then(response => response.json()).then(data => {
+                if (data.status === 'success') {
+                    window.location.href = "{% url 'payment_success' %}";
+                } else {
+                    window.location.href = "{% url 'payment_failed' %}";
+                }
+            }).catch(error => {
+                window.location.href = "{% url 'payment_failed' %}";
+            });
+        },
+        "modal": {
+            "ondismiss": function() {
+                console.log("Payment modal closed by user.");
+                window.location.href = "/";
+            }
+        },
+        "prefill": {
+            "name": "Customer Name",
+            "email": "customer@example.com",
+            "contact": "1234567890"
+        },
+        "theme": {
+            "color": "#3F3735"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+</script>
+{% endblock %}
