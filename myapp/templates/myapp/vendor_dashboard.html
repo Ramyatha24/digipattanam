@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Vendor Dashboard</h2>
+<div>
+    <h3>Earnings</h3>
+    <p>Total Earnings: ₹{{ total_earnings }}</p>
+    <p>Pending Payouts: ₹{{ pending_amount }} ({{ pending_orders_count }} orders)</p>
+</div>
+
+<div>
+    <h3>Recent Payouts</h3>
+    <ul>
+        {% for payout in recent_payouts %}
+        <li>{{ payout.created_at }} - ₹{{ payout.amount }} ({{ payout.status }})</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div>
+    <h3>Recent Sales</h3>
+    <ul>
+        {% for sale in recent_sales %}
+        <li>{{ sale.created_on }} - ₹{{ sale.amount }} ({{ sale.product.name }})</li>
+        {% endfor %}
+    </ul>
+</div>
+

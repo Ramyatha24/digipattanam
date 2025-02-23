@@ -5,9 +5,14 @@
     <form class="shadow-lg p-10 rounded-lg bg-[#3a3a3a] w-96" method="POST">
         {% csrf_token %}
         
-        {% if user_form.errors %}
+        {% if user_form.errors or bank_form.errors %}
         <div class="mb-4 p-4 bg-red-500/10 border border-red-500 rounded">
             {% for field, errors in user_form.errors.items %}
+                {% for error in errors %}
+                    <p class="text-red-500 text-sm">{{ field|title }}: {{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+            {% for field, errors in bank_form.errors.items %}
                 {% for error in errors %}
                     <p class="text-red-500 text-sm">{{ field|title }}: {{ error }}</p>
                 {% endfor %}
@@ -62,6 +67,56 @@
             </div>
             {% if user_form.password2.errors %}
                 <p class="text-red-500 text-sm mt-1">{{ user_form.password2.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-2">Bank Name</label>
+            <div class="border rounded py-2 px-3 w-full bg-[#2a2a2a]">
+                {{ bank_form.bank_name }}
+            </div>
+            {% if bank_form.bank_name.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ bank_form.bank_name.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-2">Account Holder Name</label>
+            <div class="border rounded py-2 px-3 w-full bg-[#2a2a2a]">
+                {{ bank_form.account_holder_name }}
+            </div>
+            {% if bank_form.account_holder_name.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ bank_form.account_holder_name.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-2">Account Number</label>
+            <div class="border rounded py-2 px-3 w-full bg-[#2a2a2a]">
+                {{ bank_form.account_number }}
+            </div>
+            {% if bank_form.account_number.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ bank_form.account_number.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <div class="mb-4">
+            <label class="block mb-2">IFSC Code</label>
+            <div class="border rounded py-2 px-3 w-full bg-[#2a2a2a]">
+                {{ bank_form.ifsc_code }}
+            </div>
+            {% if bank_form.ifsc_code.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ bank_form.ifsc_code.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <div class="mb-6">
+            <label class="block mb-2">Branch Name</label>
+            <div class="border rounded py-2 px-3 w-full bg-[#2a2a2a]">
+                {{ bank_form.branch_name }}
+            </div>
+            {% if bank_form.branch_name.errors %}
+                <p class="text-red-500 text-sm mt-1">{{ bank_form.branch_name.errors.0 }}</p>
             {% endif %}
         </div>
 

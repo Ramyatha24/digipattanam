@@ -20,6 +20,17 @@
         </div>
         <div class="mb-4 text-gray-600">{{ product.desc }}</div>
         <div class="mb-4 text-green-700 font-bold">₹{{ product.price }}</div>
+
+        <!-- Display Average Rating -->
+        <div class="mb-4">
+            <span class="text-lg font-semibold">Average Rating: </span>
+            {% if average_rating %}
+                <span class="text-yellow-500 text-lg font-bold">⭐ {{ average_rating|floatformat:1 }} / 5</span>
+            {% else %}
+                <span class="text-gray-500">No ratings yet</span>
+            {% endif %}
+        </div>
+
         {% if user.is_authenticated %}
             <form action="{% url 'create_checkout_session' %}" method="POST">
                 {% csrf_token %}

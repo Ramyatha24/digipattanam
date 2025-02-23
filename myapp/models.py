@@ -1,5 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from decimal import Decimal
+import razorpay
+from django.conf import settings
+
+# Initialize Razorpay client
+client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
 class Products(models.Model):
     FILE_TYPE_CHOICES = [
@@ -15,7 +21,7 @@ class Products(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200)
     desc = models.CharField(max_length=1000)
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     file = models.FileField(upload_to='uploads')
     image = models.ImageField(upload_to='product_images/', null=True, blank=True)
     file_type = models.CharField(
@@ -38,17 +44,37 @@ class Products(models.Model):
         orders = OrderDetail.objects.filter(product=self, has_paid=True)
         return sum(order.amount for order in orders)
 
-    
 class OrderDetail(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE, null=True)
-    customer_email = models.EmailField(null=True)  # Email address of the customer
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)  # Link to the purchased product
-    amount = models.IntegerField()  # Total amount of the order in paise (or your chosen currency unit)
-    razorpay_payment_intent = models.CharField(max_length=200, null=True)  # Razorpay payment ID for reference
-    razorpay_order_id=models.CharField(max_length=100,unique=True, null=True)
-    has_paid = models.BooleanField(default=False)  # Flag to check payment status
-    created_on = models.DateTimeField(auto_now_add=True, null=True)  # Timestamp when the order was created
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    customer_email = models.EmailField(null=True)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    razorpay_payment_intent = models.CharField(max_length=200, null=True)
+    razorpay_order_id = models.CharField(max_length=100, unique=True, null=True)
+    has_paid = models.BooleanField(default=False)
+    created_on = models.DateTimeField(auto_now_add=True, null=True)
     updated_on = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return f"Order by{self.user.username} for {self.product.name}"
+        return f"Order by {self.user.username} for {self.product.name}"
+
+from django.contrib.auth.models import User
+
+class BankDetails(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='bank_details', null=True)
+    bank_name = models.CharField(max_length=100, null=True)
+    account_holder_name = models.CharField(max_length=100, null=True)
+    account_number = models.CharField(max_length=20, null=True)
+    ifsc_code = models.CharField(max_length=11, null=True)
+    branch_name = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.account_holder_name} - {self.bank_name}"
+    
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, null=True)
+    value = models.IntegerField(default=1, null=True)
+
+    class Meta:
+        unique_together = ('user', 'product')

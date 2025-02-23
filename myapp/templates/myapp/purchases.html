@@ -6,33 +6,34 @@
 
     <div class="order-container shadow-lg p-10 m-5">
         {% if orders %}
-            <div class="order-header flex font-bold  m-5 p-2 ">
-                <div class="w-1/4">
-                    Product Name
-                </div>
-                <div class="w-1/4">
-                    Amount Paid
-                </div>
-                <div class="w-1/4">
-                    Order Date
-                </div>
-                <div class="w-1/4">
-                    Download Link
-                </div>
+            <div class="order-header flex font-bold m-5 p-2 text-white bg-black rounded-lg">
+                <div class="w-1/5">Product Name</div>
+                <div class="w-1/5">Amount Paid</div>
+                <div class="w-1/5">Order Date</div>
+                <div class="w-1/5">Download Link</div>
+                <div class="w-1/5">Rating</div>
             </div>
             {% for order in orders %}  
-            <div class="flex  m-5 p-2">
-                <div class="w-1/4">
-                    {{order.product.name}}
+            <div class="flex m-5 p-4 bg-black text-white rounded-lg shadow-lg">
+                <div class="w-1/5">
+                    {{ order.product.name }}
                 </div>
-                <div class="w-1/4 text-green-500">
-                    ₹{{order.amount}}
+                <div class="w-1/5 text-green-400">
+                    ₹{{ order.amount }}
                 </div>
-                <div class="w-1/4">
-                    {{order.created_on}}
+                <div class="w-1/5">
+                    {{ order.created_on }}
                 </div>
-                <div class="w-1/4">
-                    <a class="bg-green-500 text-white px-4 py-2" href="{{order.product.file.url}}" download>Click to download</a>
+                <div class="w-1/5">
+                    <a class="bg-green-500 text-white px-4 py-2 rounded-md" href="{{ order.product.file.url }}" download>Click to download</a>
+                </div>
+                <div class="w-1/5">
+                    <form method="POST" action="{% url 'submit_rating' order.product.id %}">
+                        {% csrf_token %}
+                        <label for="rating" class="block mb-2 text-sm">Rate (1-5):</label>
+                        <input type="number" name="rating" id="rating" min="1" max="5" class="text-black px-2 py-1 rounded-md w-full">
+                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-md mt-2 w-full">Submit</button>
+                    </form>
                 </div>
             </div> 
             {% endfor %}

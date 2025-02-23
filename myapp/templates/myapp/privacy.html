@@ -1,0 +1,41 @@
+{% extends 'myapp/base.html' %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto bg-gray-800 rounded-lg shadow-lg p-8">
+        <h1 class="text-3xl font-bold mb-6">Privacy Policy</h1>
+        
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Information We Collect</h2>
+            <p class="mb-4">At Digi Pattanam, we collect information to provide better services to our users. This information includes:</p>
+            <ul class="list-disc pl-6 mb-4">
+                <li class="mb-2">Basic account information (name, email address)</li>
+                <li class="mb-2">Transaction and purchase history</li>
+                <li class="mb-2">Product browsing history and preferences</li>
+                <li class="mb-2">Device information and IP address</li>
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">How We Use Your Information</h2>
+            <p class="mb-4">We use the collected information for:</p>
+            <ul class="list-disc pl-6 mb-4">
+                <li class="mb-2">Processing your transactions and orders</li>
+                <li class="mb-2">Providing customer support</li>
+                <li class="mb-2">Improving our services</li>
+                <li class="mb-2">Sending important updates and notifications</li>
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Data Security</h2>
+            <p class="mb-4">We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-semibold mb-4">Contact Us</h2>
+            <p>If you have any questions about our Privacy Policy, please <a href="{% url 'contact' %}" class="text-green-500 hover:text-green-400">contact us</a>.</p>
+        </section>
+    </div>
+</div>
+{% endblock %}

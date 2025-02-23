@@ -1,0 +1,52 @@
+{% extends 'myapp/base.html' %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto bg-gray-800 rounded-lg shadow-lg p-8">
+        <h1 class="text-3xl font-bold mb-6">Contact Us</h1>
+        
+        {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+            <div class="bg-green-600 text-white px-4 py-3 rounded-lg">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'contact_submit' %}">
+            {% csrf_token %}
+            
+            <div class="mb-4">
+                <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium mb-2">Name</label>
+                {{ form.name }}
+            </div>
+
+            <div class="mb-4">
+                <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium mb-2">Email</label>
+                {{ form.email }}
+            </div>
+
+            <div class="mb-6">
+                <label for="{{ form.message.id_for_label }}" class="block text-sm font-medium mb-2">Message</label>
+                {{ form.message }}
+            </div>
+
+            <button type="submit" class="w-full bg-green-600 hover:bg-green-500 text-white font-medium py-2 px-4 rounded-lg transition duration-300">
+                Send Message
+            </button>
+        </form>
+
+        <div class="mt-8 text-center">
+            <h2 class="text-xl font-semibold mb-4">Other Ways to Reach Us</h2>
+            <div class="space-y-2">
+                <p>Email: support@digipattanam.com</p>
+                <p>Phone: +916281650290</p>
+                <p>Address: Digi Pattanam, Hyderabad Knowledge City, Serilingampally, Hyderabad, Telangana 500081.
+                    Visiting Hours : Monday to Friday, 9 AM to 6 PM</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
